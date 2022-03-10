@@ -1,0 +1,4 @@
+com.sharifiniax.parscalendar
+raw gregorian
+raw hijri
+raw jalali
