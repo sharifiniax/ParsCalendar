@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">ParsCalendar</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--    <string-array name="events" >-->
+    <!--        -->
+    <!--        -->
+    <!--        <item name="Farvardin"></item>-->
+    <!--        <item name="Ordibehesht"></item>-->
+    <!--        <item name="Khordad"></item>-->
+    <!--        <item name="Tir"></item>-->
+    <!--        <item name="Mordad"></item>-->
+    <!--        <item name="Shahrivar"></item>-->
+    <!--        <item name="Mehr"></item>-->
+    <!--        <item name="Aban"></item>-->
+    <!--        <item name="Azar"></item>-->
+    <!--        <item name="Dey"></item>-->
+    <!--        <item name="Bahman"></item>-->
+    <!--        <item name="Esfand"></item>-->
+    <!--    </string-array>-->
+</resources>

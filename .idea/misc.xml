@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="ParsCalendar/src/main/res/xml/event_arabic.xml" value="0.1" />
+        <entry key="ParsCalendar/src/main/res/xml/event_gregorian.xml" value="0.5568862275449101" />
+        <entry key="ParsCalendar/src/main/res/xml/event_misc.xml" value="0.1" />
+        <entry key="ParsCalendar/src/main/res/xml/persian_events.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/bottom_sheet_rounded_corner.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/calendar_item_shape.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/drawer_background.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/evet_box_background.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/ic_arrow_back.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/ic_arrow_forward.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/ic_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/item_calendar_shap.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/line.xml" value="0.1845" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/bottom_sheet.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/calendar_item.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/content_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/event_dialog.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/event_item.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_event.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/nav_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/xml/event.xml" value="0.1" />
+        <entry key="app/src/main/res/xml/events.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
