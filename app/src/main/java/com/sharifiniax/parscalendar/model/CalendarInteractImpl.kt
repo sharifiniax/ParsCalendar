@@ -1,11 +1,23 @@
 package com.sharifiniax.parscalendar.model
 
+import androidx.test.core.app.ActivityScenario.launch
+import com.orhanobut.logger.Logger
+import com.sharifiniax.parscalendar.MainActivity
+import com.sharifiniax.parscalendar.data.DayModel
+import com.sharifiniax.parscalendar.data.MonthModel
 import com.sharifiniax.parscalendar.data.ParsCalendarCore
 import com.sharifiniax.parscalendar.data.ParsCalendarEvent
 import com.sharifiniax.parscalendar.data.model.Day
 import com.sharifiniax.parscalendar.data.model.PublicEvent
 import com.sharifiniax.parscalendar.utils.MonthState
 import com.sharifiniax.parscalendar.utils.Utils
+import kotlinx.coroutines.*
+
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ChannelResult
+import kotlinx.coroutines.channels.produce
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class CalendarInteractImpl @Inject constructor(
@@ -262,14 +274,15 @@ class CalendarInteractImpl @Inject constructor(
     }
 
 
+
+
     override fun today(): DayModel {
+
         return DayModel(
             calendar.iranianDayOfWeek,
             calendar.iranianDay,
             calendar.iranianMonth,
-            calendar.iranianYear,MonthModel.Current
-        )
-
+            calendar.iranianYear, MonthModel.Current)
 
     }
 
@@ -373,6 +386,52 @@ class CalendarInteractImpl @Inject constructor(
         return holiday
 
     }
+
+    override  fun getToday(): Flow<DayModel> {
+
+        return flow{
+
+            var today = calendarEvent.getCurrentDate()
+            Logger.d("first today is emitting now.")
+            emit(
+                DayModel(
+                    calendarEvent.getCurrentDate().dayOfWeek,
+                    calendarEvent.getCurrentDate().day,
+                    calendarEvent.getCurrentDate().month,
+                    calendarEvent.getCurrentDate().year,
+                    MonthModel.Current)
+            )
+            Logger.d("first emit is done.")
+            while (true){
+                delay(1000)
+                if (calendarEvent.getCurrentDate()!=today){
+                    today= calendarEvent.getCurrentDate()
+                    Logger.d("Second today is emitting now.")
+                    emit(
+                        DayModel(
+                            calendarEvent.getCurrentDate().dayOfWeek,
+                            calendarEvent.getCurrentDate().day,
+                            calendarEvent.getCurrentDate().month,
+                            calendarEvent.getCurrentDate().year,
+                            MonthModel.Current)
+                    )
+                    Logger.d("Second emit is done.")
+                }
+
+
+
+            }
+
+
+        }
+
+
+
+
+    }
+
+
+
 
 
 }

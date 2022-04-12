@@ -1,6 +1,9 @@
 package com.sharifiniax.parscalendar.model
 
+import com.sharifiniax.parscalendar.data.DayModel
+
 import com.sharifiniax.parscalendar.data.model.PublicEvent
+import kotlinx.coroutines.flow.Flow
 
 interface CalendarRepository {
 
@@ -22,5 +25,5 @@ interface CalendarRepository {
 
     fun gregorianDateAlphabetic(dayModel: DayModel): String
     fun hijriDateAlphabetic(dayModel: DayModel): String
-
+    fun getToday(): Flow<DayModel>
 }

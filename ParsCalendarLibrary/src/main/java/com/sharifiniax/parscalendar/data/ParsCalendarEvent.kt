@@ -130,7 +130,12 @@ class ParsCalendarEvent(private val mContext: Context) {
 
     }
 
-
+    fun getCurrentDate():Day{
+        val cal = ParsCalendarCore(GregorianCalendar())
+        val day=Day(cal.iranianDay,cal.iranianMonth,cal.iranianYear)
+        day.dayOfWeek=cal.iranianDayOfWeek
+        return day
+    }
 
 
 }

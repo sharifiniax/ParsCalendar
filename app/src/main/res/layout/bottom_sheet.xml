@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.sharifiniax.parscalendar.ui.main.MainFragmentViewModel" />
+            type="com.sharifiniax.parscalendar.ui.calendar.MainFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

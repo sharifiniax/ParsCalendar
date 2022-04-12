@@ -10,26 +10,27 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity"
-        >
+        tools:context=".MainActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/Theme.ParsCalendar.AppBarOverlay">
 
-            <androidx.appcompat.widget.Toolbar
+
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/blue_400"
-                app:popupTheme="@style/Theme.ParsCalendar.PopupOverlay"
-            />
+                android:theme="@style/Theme.ParsCalendar.Toolbar"
+                />
 
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <include layout="@layout/content_main" />
+        <include
+            android:id="@+id/content_main"
+            layout="@layout/content_main" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

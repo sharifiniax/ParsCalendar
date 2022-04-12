@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.ParsCalendar.AppWidget.Container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/Theme.ParsCalendar.AppWidgetContainer">
+
+
+        <TextView
+            android:id="@+id/day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentBottom="false"
+            android:gravity="center"
+            android:textSize="20sp" />
+
+
+        <TextView
+            android:id="@+id/year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/day"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textSize="20sp" />
+
+
+        <TextView
+            android:id="@+id/month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/day"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textSize="20sp" />
+
+</RelativeLayout>

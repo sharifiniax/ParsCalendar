@@ -1,7 +1,10 @@
 package com.sharifiniax.parscalendar.model
 
+import com.sharifiniax.parscalendar.data.DayModel
 import com.sharifiniax.parscalendar.data.model.PublicEvent
 import com.sharifiniax.parscalendar.utils.MonthState
+
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
@@ -23,7 +26,9 @@ class CalendarRepositoryImpl @Inject constructor(
         return calendarInteract.getListOfMonth(MonthState.NextMonth)
     }
 
-    override fun today(): DayModel {
+
+
+    override fun today():DayModel {
         return calendarInteract.today()
     }
 
@@ -57,6 +62,10 @@ class CalendarRepositoryImpl @Inject constructor(
 
     override fun hijriDateAlphabetic(dayModel: DayModel): String {
         return calendarInteract.hijriDateAlphabetic(dayModel)
+    }
+
+    override fun getToday(): Flow<DayModel> {
+        return calendarInteract.getToday()
     }
 
 

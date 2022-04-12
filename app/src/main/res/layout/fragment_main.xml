@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.sharifiniax.parscalendar.ui.main.MainFragmentViewModel" />
+            type="com.sharifiniax.parscalendar.ui.calendar.MainFragmentViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -321,13 +321,9 @@
 
                 android:id="@+id/event_box"
                 android:layout_width="0dp"
-
-
-                android:layout_height="wrap_content"
+                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/evet_box_background"
-
-
                 android:orientation="vertical"
                 android:padding="8dp"
                 app:layout_constraintEnd_toStartOf="@id/guideline3"
@@ -339,7 +335,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_margin="8dp"
-
                     android:layout_weight="1"
                     android:textColor="@color/white"
                     android:textSize="16sp"

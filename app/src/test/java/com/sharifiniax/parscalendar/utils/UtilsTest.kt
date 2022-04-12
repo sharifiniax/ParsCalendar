@@ -1,8 +1,7 @@
 package com.sharifiniax.parscalendar.utils
 
 import android.util.Log
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 
@@ -17,12 +16,12 @@ class UtilsTest{
 
     @Test
     fun getListEvent() {
-
-        val gson = Gson()
-        val listEventType: Type = object : TypeToken<Array<Event?>?>() {}.type
-        val list:List<Event> = gson.fromJson(aban, listEventType )
-
-        Log.d("abanJson",list.size.toString())
+//
+//        val gson = Gson()
+//        val listEventType: Type = object : TypeToken<Array<Event?>?>() {}.type
+//        val list:List<Event> = gson.fromJson(aban, listEventType )
+//
+//        Log.d("abanJson",list.size.toString())
 
     }
 

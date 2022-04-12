@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:ns1="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.ParsCalendar" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
@@ -17,8 +17,51 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="InputChild" parent="Theme.MaterialComponents.DayNight">
+
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:backgroundTint">@color/transparent</item>
+    </style>
+
+    <style name="Button" parent="Theme.MaterialComponents.DayNight">
+
+
+<!--        <item name="backgroundColor">@color/transparent</item>-->
+        <item name="background">@drawable/rounded_button</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="textAppearanceButton">@color/blue_200 </item>
+        <item name="android:backgroundTint">@color/transparent</item>
+
+    </style>
 
     <style name="Theme.ParsCalendar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Theme.ParsCalendar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.ParsCalendar.Toolbar">
+
+        <item name="colorControlNormal">@color/white</item>
+
+        <item name="android:background">@color/blue_400</item>
+
+    </style>
+
+    <style name="Theme.ParsCalendar.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
+        <!-- Radius of the outer bound of widgets to make the rounded corners -->
+        <item name="appWidgetRadius">16dp</item>
+        <!--
+        Radius of the inner view's bound of widgets to make the rounded corners.
+        It needs to be 8dp or less than the value of appWidgetRadius
+        -->
+        <item name="appWidgetInnerRadius">8dp</item>
+    </style>
+
+    <style name="Theme.ParsCalendar.AppWidgetContainer" parent="Theme.ParsCalendar.AppWidgetContainerParent">
+        <!-- Apply padding to avoid the content of the widget colliding with the rounded corners -->
+        <item name="appWidgetPadding">16dp</item>
+    </style>
+    <style name="BottomSheetDialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+
 </resources>

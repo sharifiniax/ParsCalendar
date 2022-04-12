@@ -7,25 +7,40 @@
         <entry key="ParsCalendar/src/main/res/xml/event_gregorian.xml" value="0.5568862275449101" />
         <entry key="ParsCalendar/src/main/res/xml/event_misc.xml" value="0.1" />
         <entry key="ParsCalendar/src/main/res/xml/persian_events.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/background_edit_text.xml" value="0.1565" />
+        <entry key="app/src/main/res/drawable-v24/background_edit_text_default.xml" value="0.1565" />
+        <entry key="app/src/main/res/drawable-v24/background_edit_text_selected.xml" value="0.1565" />
         <entry key="app/src/main/res/drawable/bottom_sheet_rounded_corner.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/calendar_item_shape.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/drawer_background.xml" value="0.1415" />
         <entry key="app/src/main/res/drawable/evet_box_background.xml" value="0.1415" />
         <entry key="app/src/main/res/drawable/ic_arrow_back.xml" value="0.1415" />
         <entry key="app/src/main/res/drawable/ic_arrow_forward.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/ic_calendar.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/ic_dot.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/ic_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_send.xml" value="0.1565" />
         <entry key="app/src/main/res/drawable/item_calendar_shap.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/line.xml" value="0.1845" />
+        <entry key="app/src/main/res/drawable/rounded_button.xml" value="0.1655" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.2" />
         <entry key="app/src/main/res/layout/bottom_sheet.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/calendar_item.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/bottom_sheet_item_for_calendar.xml" value="0.15" />
+        <entry key="app/src/main/res/layout/calendar_bottom_sheet.xml" value="0.11820652173913043" />
+        <entry key="app/src/main/res/layout/calendar_item.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/calendar_widget.xml" value="0.25" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/event_dialog.xml" value="0.2" />
         <entry key="app/src/main/res/layout/event_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_event.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.1" />
-        <entry key="app/src/main/res/menu/nav_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_todo.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/item_calendar_bottom_sheet.xml" value="0.11820652173913043" />
+        <entry key="app/src/main/res/layout/item_category.xml" value="0.11820652173913043" />
+        <entry key="app/src/main/res/layout/item_task.xml" value="0.11820652173913043" />
+        <entry key="app/src/main/res/layout/todo_bottom_sheet.xml" value="0.2585128561501042" />
+        <entry key="app/src/main/res/menu/nav_menu.xml" value="0.5" />
         <entry key="app/src/main/res/xml/event.xml" value="0.1" />
         <entry key="app/src/main/res/xml/events.xml" value="0.1" />
       </map>

@@ -1,8 +1,10 @@
 package com.sharifiniax.parscalendar
 
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MotionEvent
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -10,13 +12,14 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.orhanobut.logger.Logger
-import com.sharifiniax.parscalendar.data.ParsCalendarEvent
 import com.sharifiniax.parscalendar.databinding.ActivityMainBinding
+import com.sharifiniax.parscalendar.ui.todo.TodoFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var toolbar: Toolbar
     private lateinit var appBarConfiguration : AppBarConfiguration
     private lateinit var binding : ActivityMainBinding
 
@@ -26,17 +29,32 @@ class MainActivity : AppCompatActivity() {
         val navController=findNavController(R.id.fragment_container_view)
 
         appBarConfiguration= AppBarConfiguration(
-            navController.graph
-            ,binding.drawerLayout)
-        setSupportActionBar(binding.appBarMain.toolbar)
+            setOf(R.id.MainFragment,R.id.todoFragment),
+            binding.drawerLayout)
+        toolbar=binding.appBarMain.toolbar
+        setSupportActionBar(toolbar)
 
         supportActionBar?.title=""
-       binding.appBarMain.toolbar.setNavigationIcon(R.drawable.ic_menu)
-
         setupActionBarWithNavController(navController,appBarConfiguration)
         binding.navView.setupWithNavController(navController)
 
-//        makeTest()
+
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (ev?.action === MotionEvent.ACTION_DOWN) {
+
+            val fragment= supportFragmentManager
+                .findFragmentById(R.id.fragment_container_view)
+                ?.childFragmentManager?.fragments?.get(0)
+
+
+            if ( fragment != null && fragment is TodoFragment) {
+
+                fragment.hideBottomSheetFromOutSide(ev)
+            }
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
 

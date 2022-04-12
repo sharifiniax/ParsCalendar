@@ -1,17 +1,20 @@
 package com.sharifiniax.parscalendar.model
 
+import com.sharifiniax.parscalendar.data.DayModel
 import com.sharifiniax.parscalendar.data.ParsCalendarCore
 import com.sharifiniax.parscalendar.data.ParsCalendarEvent
 import com.sharifiniax.parscalendar.data.model.Event
 import com.sharifiniax.parscalendar.data.model.PublicEvent
 import com.sharifiniax.parscalendar.utils.MonthState
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 
 interface CalendarInteract {
 
     abstract val calendarEvent:ParsCalendarEvent
     abstract val calendar:ParsCalendarCore
     fun getListOfMonth(state:MonthState):List<DayModel?>
-    fun today():DayModel
+    fun today(): DayModel
     fun jalaliEvent(day:DayModel):List<PublicEvent>
 
 
@@ -24,4 +27,5 @@ interface CalendarInteract {
 
     fun isHoliday(dayModel: DayModel): Boolean
 
+    fun getToday(): Flow<DayModel>
 }
