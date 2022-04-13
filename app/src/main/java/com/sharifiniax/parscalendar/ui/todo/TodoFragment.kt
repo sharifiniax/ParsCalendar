@@ -19,6 +19,7 @@ import com.orhanobut.logger.Logger
 import com.sharifiniax.parscalendar.R
 import com.sharifiniax.parscalendar.databinding.FragmentTodoBinding
 import com.sharifiniax.parscalendar.ui.todo.calendar.CalendarsAdapter
+import com.sharifiniax.parscalendar.ui.todo.task.TaskAdapter
 import com.sharifiniax.parscalendar.utils.BottomSheetState
 import com.sharifiniax.parscalendar.utils.ButtonState
 import com.sharifiniax.parscalendar.utils.DayTask
@@ -154,7 +155,13 @@ class TodoFragment @Inject constructor() : Fragment() {
 
             }
         }
+        val taskAdapter = TaskAdapter(viewModel)
+        binding.taskRecycler.layoutManager=LinearLayoutManager(context)
+        binding.taskRecycler.adapter=taskAdapter
 
+        viewModel.taskList.observe(viewLifecycleOwner){
+            taskAdapter.submitList(it)
+        }
 
         viewModel.selectDay.observe(viewLifecycleOwner) {
             binding.todoBottomSheet.taskDay.text = it.toString()
@@ -199,6 +206,7 @@ class TodoFragment @Inject constructor() : Fragment() {
     private fun initBottomSheet() {
 
         bottomSheet.isDraggable = false
+        calendarBottomSheet.isDraggable = false
 
     }
 

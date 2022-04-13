@@ -16,7 +16,7 @@ class TodoRepositoryImpl @Inject constructor(
        taskDao.insert(task)
     }
 
-    override suspend fun getAll(): List<Task> {
+    override fun getAll(): Flow<List<Task>> {
         return taskDao.getAll()
     }
 

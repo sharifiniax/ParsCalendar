@@ -12,7 +12,7 @@ interface TaskDao {
     suspend fun insert(task: Task)
 
     @Query("SELECT * FROM Task")
-    suspend fun getAll():List<Task>
+    fun getAll():Flow<List<Task>>
 
     @Delete
     suspend fun delete(task: Task)

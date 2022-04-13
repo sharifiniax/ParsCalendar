@@ -15,7 +15,7 @@ interface TodoRepository {
     suspend fun insert(task: Task)
 
 
-    suspend fun getAll():List<Task>
+    fun getAll(): Flow<List<Task>>
 
 
     suspend fun delete(task: Task)

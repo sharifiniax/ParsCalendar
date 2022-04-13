@@ -10,6 +10,7 @@ import androidx.room.Relation
 data class TodoCategory(
     @PrimaryKey
     val categoryId:Int,
+
     val name:String,
     val color: CategoryColor = CategoryColor.White
 )

@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sharifiniax.parscalendar.data.Task
 import com.sharifiniax.parscalendar.databinding.TaskItemBinding
+import com.sharifiniax.parscalendar.ui.todo.TaskAction
 
-class TaskAdapter:
+class TaskAdapter(
+    private val taskAction: TaskAction
+):
     ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback()) {
 
 
@@ -21,9 +24,11 @@ class TaskAdapter:
 
 
         fun bind(
-            item: Task
+            item: Task,
+            taskAction: TaskAction
         ) {
             binding.item=item
+            binding.taskAction=taskAction
         }
 
 
@@ -47,7 +52,7 @@ class TaskAdapter:
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item,taskAction)
 
     }
 

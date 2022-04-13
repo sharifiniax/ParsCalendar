@@ -15,6 +15,7 @@ import com.sharifiniax.parscalendar.utils.ButtonState
 import com.sharifiniax.parscalendar.utils.DayTask
 import com.sharifiniax.parscalendar.utils.InsertTaskState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -24,7 +25,7 @@ import javax.inject.Inject
 class TodoViewModel @Inject constructor(
     private val repository: TodoRepositoryImpl,
     private val calendarRepository: CalendarRepositoryImpl
-) : ViewModel(),ICloseCalendarBottomSheet {
+) : ViewModel(),ICloseCalendarBottomSheet,TaskAction {
 
     var description:String=""
     var title:String=""
@@ -45,6 +46,7 @@ class TodoViewModel @Inject constructor(
     private val _insertTaskState= MutableStateFlow<InsertTaskState>(InsertTaskState.Empty)
     val insertTaskState:StateFlow<InsertTaskState> =_insertTaskState
 
+     val taskList  = repository.getAll().asLiveData()
 
 
     fun enableSendTask(){
@@ -95,7 +97,7 @@ class TodoViewModel @Inject constructor(
 
         val task= Task(title,description,_selectDay.value!!,1)
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 repository.insert(task)
             }.onFailure {
@@ -105,7 +107,7 @@ class TodoViewModel @Inject constructor(
                 _insertTaskState.value=InsertTaskState.Success
                 _bottomSheetState.value=BottomSheetState.Hide
                 _insertTaskState.value=InsertTaskState.Empty
-                _selectDay.value =calendarRepository.today()
+                _selectDay.postValue(calendarRepository.today())
                 clearText()
             }
         }
@@ -116,10 +118,24 @@ class TodoViewModel @Inject constructor(
         title=""
     }
 
+    override fun deleteItem(it:Task){
+
+        viewModelScope.launch(Dispatchers.IO) {
+         kotlin.runCatching {
+             repository.delete(it)
+         }
+
+        }
+
+    }
+
+
 }
 
  interface ICloseCalendarBottomSheet {
     fun closeCalendarBottomSheet(day:DayModel)
-
  }
+interface TaskAction{
+    fun deleteItem(it:Task)
+}
 

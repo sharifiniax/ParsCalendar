@@ -36,12 +36,14 @@ class CalendarAdapter(
                 binding.dayOfMonth.let {
                     it.setTextColor(ResourcesCompat.getColor(it.resources, R.color.blue_400,null))
                 }
+
+                binding.baseItem.setOnClickListener {
+                    closeCalendarBottomSheet.closeCalendarBottomSheet(item)
+
+                }
             }
 
-            binding.baseItem.setOnClickListener {
-                closeCalendarBottomSheet.closeCalendarBottomSheet(item)
 
-            }
             binding.executePendingBindings()
         }
 
