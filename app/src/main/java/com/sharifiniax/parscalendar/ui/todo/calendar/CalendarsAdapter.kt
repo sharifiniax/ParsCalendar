@@ -43,6 +43,7 @@ class CalendarsAdapter(
                         return false
                     }
                 }
+
             binding.calendarsItemRecyclerView.adapter = adapter
             adapter.submitList(
                 item

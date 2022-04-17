@@ -1,5 +1,6 @@
 package com.sharifiniax.parscalendar.ui.todo
 
+import android.service.controls.Control
 import androidx.lifecycle.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
@@ -10,10 +11,7 @@ import com.sharifiniax.parscalendar.data.Task
 import com.sharifiniax.parscalendar.model.CalendarRepositoryImpl
 import com.sharifiniax.parscalendar.repository.TodoRepository
 import com.sharifiniax.parscalendar.repository.TodoRepositoryImpl
-import com.sharifiniax.parscalendar.utils.BottomSheetState
-import com.sharifiniax.parscalendar.utils.ButtonState
-import com.sharifiniax.parscalendar.utils.DayTask
-import com.sharifiniax.parscalendar.utils.InsertTaskState
+import com.sharifiniax.parscalendar.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,10 +23,11 @@ import javax.inject.Inject
 class TodoViewModel @Inject constructor(
     private val repository: TodoRepositoryImpl,
     private val calendarRepository: CalendarRepositoryImpl
-) : ViewModel(),ICloseCalendarBottomSheet,TaskAction {
+) : ViewModel(), ICloseCalendarBottomSheet, TaskAction {
 
-    var description:String=""
-    var title:String=""
+    var description: String = ""
+    var title: String = ""
+    var priority: Int = 1
 
     private var _calendarBottomSheetState: MutableStateFlow<BottomSheetState> =
         MutableStateFlow(BottomSheetState.Hide)
@@ -37,37 +36,40 @@ class TodoViewModel @Inject constructor(
         MutableStateFlow(BottomSheetState.Hide)
     val bottomSheetState: StateFlow<BottomSheetState> = _bottomSheetState
 
-    private val _selectDay : MutableLiveData<DayModel> = MutableLiveData(calendarRepository.today())
-    val selectDay:LiveData<DayModel> = _selectDay
+    val selectDay: MutableLiveData<DayModel> = MutableLiveData(calendarRepository.today())
+    override val today: LiveData<DayModel> = selectDay
 
-    private val _sendTaskState= MutableStateFlow<ButtonState>(ButtonState.Disable)
-    val sendTaskState:StateFlow<ButtonState> =_sendTaskState
+    private val _sendTaskState = MutableStateFlow<ButtonState>(ButtonState.Disable)
+    val sendTaskState: StateFlow<ButtonState> = _sendTaskState
 
-    private val _insertTaskState= MutableStateFlow<InsertTaskState>(InsertTaskState.Empty)
-    val insertTaskState:StateFlow<InsertTaskState> =_insertTaskState
+    private val _insertTaskState = MutableStateFlow<InsertTaskState>(InsertTaskState.Empty)
+    val insertTaskState: StateFlow<InsertTaskState> = _insertTaskState
 
-     val taskList  = repository.getAll().asLiveData()
+    val taskList= repository.getAllNoDone().asLiveData()
+
+    private val _menuFlag: MutableStateFlow<PriorityMenuState> =
+        MutableStateFlow(PriorityMenuState.Close)
+    val menuFlag: StateFlow<PriorityMenuState> = _menuFlag
 
 
-    fun enableSendTask(){
-        _sendTaskState.value=ButtonState.Enable
+    fun enableSendTask() {
+        _sendTaskState.value = ButtonState.Enable
 
     }
-    fun disableSendTask(){
-        _sendTaskState.value=ButtonState.Disable
+
+    fun disableSendTask() {
+        _sendTaskState.value = ButtonState.Disable
 
     }
-    private val _calendarListState = liveData<List<List<DayModel>>> {
-        val list:MutableList<List<DayModel>> = mutableListOf()
+
+    val calendarList = liveData<List<List<DayModel>>> {
+        val list: MutableList<List<DayModel>> = mutableListOf()
         list.add(calendarRepository.currentMonth())
-        for (i in 1..24){
+        for (i in 1..24) {
             list.add(calendarRepository.nextMonth())
         }
         emit(list)
     }
-//
-    val calendarListState: LiveData<List<List<DayModel>>> =_calendarListState
-
 
 
     fun openBottomSheet() {
@@ -81,61 +83,85 @@ class TodoViewModel @Inject constructor(
         _bottomSheetState.value = BottomSheetState.Hide
     }
 
- fun openCalendarBottomSheet() {
+    fun openCalendarBottomSheet() {
 
-     _calendarBottomSheetState.value = BottomSheetState.Collapse
+        _calendarBottomSheetState.value = BottomSheetState.Collapse
 
     }
 
-    override fun closeCalendarBottomSheet(day:DayModel) {
+    override fun closeCalendarBottomSheet(day: DayModel) {
+
         _calendarBottomSheetState.value = BottomSheetState.Hide
-        _selectDay.value = day
+        selectDay.value = day
 
     }
 
-    fun insertTask(){
+    fun insertTask() {
 
-        val task= Task(title,description,_selectDay.value!!,1)
+        val task = Task(title, description, selectDay.value!!, 1, null, priority, done = false)
 
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 repository.insert(task)
             }.onFailure {
-                _insertTaskState.value=InsertTaskState.Failed
-
+                _insertTaskState.value = InsertTaskState.Failed
             }.onSuccess {
-                _insertTaskState.value=InsertTaskState.Success
-                _bottomSheetState.value=BottomSheetState.Hide
-                _insertTaskState.value=InsertTaskState.Empty
-                _selectDay.postValue(calendarRepository.today())
-                clearText()
+                clearTitleAndDescription()
+
+
+                _insertTaskState.value = InsertTaskState.Success
+
+                _insertTaskState.value = InsertTaskState.Empty
+                selectDay.postValue(calendarRepository.today())
+
+                _bottomSheetState.value = BottomSheetState.Hide
             }
         }
 
     }
-    private fun clearText(){
-        description=""
-        title=""
+
+    private fun clearTitleAndDescription() {
+        title = ""
+        description = ""
     }
 
-    override fun deleteItem(it:Task){
+
+    override fun deleteItem(it: Task) {
 
         viewModelScope.launch(Dispatchers.IO) {
-         kotlin.runCatching {
-             repository.delete(it)
-         }
+            kotlin.runCatching {
+                repository.delete(it)
+            }
 
         }
 
     }
 
+    override fun changeTask(it: Task) {
+        it.done = !it.done
 
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateTask(it)
+        }
+
+
+    }
+
+    fun openPriority() {
+
+        _menuFlag.value = PriorityMenuState.Open
+        _menuFlag.value = PriorityMenuState.Close
+
+    }
 }
 
- interface ICloseCalendarBottomSheet {
-    fun closeCalendarBottomSheet(day:DayModel)
- }
-interface TaskAction{
-    fun deleteItem(it:Task)
+interface ICloseCalendarBottomSheet {
+    fun closeCalendarBottomSheet(day: DayModel)
+    val today: LiveData<DayModel>
+}
+
+interface TaskAction {
+    fun deleteItem(it: Task)
+    fun changeTask(it: Task)
 }
 

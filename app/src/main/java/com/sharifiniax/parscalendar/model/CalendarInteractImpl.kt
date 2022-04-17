@@ -278,6 +278,7 @@ class CalendarInteractImpl @Inject constructor(
 
     override fun today(): DayModel {
 
+        calendar.goToCurrentDate()
         return DayModel(
             calendar.iranianDayOfWeek,
             calendar.iranianDay,

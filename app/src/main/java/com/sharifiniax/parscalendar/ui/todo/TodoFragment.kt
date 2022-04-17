@@ -3,15 +3,14 @@ package com.sharifiniax.parscalendar.ui.todo
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
-import android.os.ResultReceiver
-import android.service.autofill.FieldClassification
+import android.text.Editable
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
@@ -22,10 +21,11 @@ import com.sharifiniax.parscalendar.ui.todo.calendar.CalendarsAdapter
 import com.sharifiniax.parscalendar.ui.todo.task.TaskAdapter
 import com.sharifiniax.parscalendar.utils.BottomSheetState
 import com.sharifiniax.parscalendar.utils.ButtonState
-import com.sharifiniax.parscalendar.utils.DayTask
 import com.sharifiniax.parscalendar.utils.InsertTaskState
+import com.sharifiniax.parscalendar.utils.PriorityMenuState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.observeOn
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,6 +33,7 @@ class TodoFragment @Inject constructor() : Fragment() {
 
     private val FAILED = "خطایی رخ داده مجدد تلاش کن"
     private val SUCCESS = "ثبت شد"
+
     /*
     max and min peek height
      */
@@ -44,7 +45,6 @@ class TodoFragment @Inject constructor() : Fragment() {
 
     private val viewModel: TodoViewModel by viewModels()
     lateinit var binding: FragmentTodoBinding
-
 
     private lateinit var bottomSheet: BottomSheetBehavior<View>
     private lateinit var calendarBottomSheet: BottomSheetBehavior<View>
@@ -82,6 +82,7 @@ class TodoFragment @Inject constructor() : Fragment() {
                         bottomSheet.peekHeight = MAXPEEKHEIGHT
 //                        bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
                         binding.floatingActionButton2.visibility = View.INVISIBLE
+                        clearText()
                         openKeyboard()
                     }
 
@@ -105,6 +106,7 @@ class TodoFragment @Inject constructor() : Fragment() {
 
                     BottomSheetState.Collapse -> {
                         calendarBottomSheet.peekHeight = CALMAXPEEKHEIGHT
+
                     }
 
                     BottomSheetState.Expand -> {
@@ -140,26 +142,52 @@ class TodoFragment @Inject constructor() : Fragment() {
                 when (it) {
 
                     InsertTaskState.Failed -> {
-                        Snackbar.make(binding.root,FAILED,Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, FAILED, Snackbar.LENGTH_SHORT).show()
+
+
                     }
                     InsertTaskState.Success -> {
-                        Snackbar.make(binding.root,SUCCESS,Snackbar.LENGTH_SHORT).show()
-                        clearText()
+                        Snackbar.make(binding.root, SUCCESS, Snackbar.LENGTH_SHORT).show()
+
+
                     }
 
                     InsertTaskState.Empty -> {
-                        clearText()
+
                     }
 
                 }
 
             }
         }
-        val taskAdapter = TaskAdapter(viewModel)
-        binding.taskRecycler.layoutManager=LinearLayoutManager(context)
-        binding.taskRecycler.adapter=taskAdapter
+        lifecycleScope.launchWhenStarted {
+            viewModel.menuFlag.collect {
 
-        viewModel.taskList.observe(viewLifecycleOwner){
+                when(it){
+
+                    PriorityMenuState.Close->{
+
+
+                    }
+                    PriorityMenuState.Open->{
+
+                        showPriorityMenu()
+                    }
+
+
+
+
+                }
+
+
+
+            }
+        }
+        val taskAdapter = TaskAdapter(viewModel)
+        binding.taskRecycler.layoutManager = LinearLayoutManager(context)
+        binding.taskRecycler.adapter = taskAdapter
+
+        viewModel.taskList.observe(viewLifecycleOwner) {
             taskAdapter.submitList(it)
         }
 
@@ -173,9 +201,10 @@ class TodoFragment @Inject constructor() : Fragment() {
             .calendarBottomSheet
             .calendarsRecyclerView.adapter = adapter
 
-        viewModel.calendarListState.observe(viewLifecycleOwner) {
+        viewModel.calendarList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
+
 
         binding.todoBottomSheet.taskTitle.doAfterTextChanged {
             it.let {
@@ -183,19 +212,18 @@ class TodoFragment @Inject constructor() : Fragment() {
                 ) {
                     viewModel.enableSendTask()
 
-                }else
-                {
+                } else {
                     viewModel.disableSendTask()
 
                 }
             }
 
 
-
         }
 
         return binding.root
     }
+
 
     private fun initCalendarBottomSheet() {
         calendarBottomSheet.peekHeight = 0
@@ -239,10 +267,57 @@ class TodoFragment @Inject constructor() : Fragment() {
 
     }
 
+    private fun showPriorityMenu() {
+        PopupMenu(requireContext(), binding.todoBottomSheet.priorityFlag).apply {
+            // MainActivity implements OnMenuItemClickListener
+            setOnMenuItemClickListener{
+                 when (it.itemId) {
+                    R.id.priority_1 -> {
+                        viewModel.priority=1
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.priority_2 -> {
+                        viewModel.priority=2
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.priority_3 -> {
+                        viewModel.priority=3
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.priority_4 -> {
+                        viewModel.priority=4
+                        return@setOnMenuItemClickListener true
+                    }
+
+                     else ->{
+                         return@setOnMenuItemClickListener false
+                     }
+            }
+
+        }
+            inflate(R.menu.priority_menu)
+            show()
+    }
+
+
+
+    }
+
+
+
+    private fun clearText() {
+
+        binding.todoBottomSheet.taskTitle.setText("")
+        binding.todoBottomSheet.taskDescription.setText("")
+
+
+    }
     fun hideBottomSheetFromOutSide(ev: MotionEvent) {
 
-        if (bottomSheet
-                .state != BottomSheetBehavior.STATE_HIDDEN
+        if (bottomSheet.peekHeight >= 0
             && calendarBottomSheet.peekHeight <= 0
         ) {
             val outRect = Rect()
@@ -258,11 +333,24 @@ class TodoFragment @Inject constructor() : Fragment() {
             }
 
         }
-    }
-    fun clearText(){
-        binding.todoBottomSheet.taskTitle.setText("")
-        binding.todoBottomSheet.taskDescription.setText("")
-    }
+        if (
+            calendarBottomSheet.peekHeight >= 0
+        ) {
+            val outRect = Rect()
+            binding.calendarBottomSheet.root.getGlobalVisibleRect(outRect)
+            if (!outRect.contains(
+                    ev.rawX.toInt(),
+                    ev.rawY.toInt()
+                )
+            ) {
 
+                viewModel.closeCalendarBottomSheet(viewModel.selectDay.value!!)
+
+            }
+
+        }
+
+
+    }
 
 }

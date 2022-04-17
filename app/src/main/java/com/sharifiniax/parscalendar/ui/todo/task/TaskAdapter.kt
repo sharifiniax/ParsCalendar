@@ -2,7 +2,9 @@ package com.sharifiniax.parscalendar.ui.todo.task
 
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +15,7 @@ import com.sharifiniax.parscalendar.ui.todo.TaskAction
 class TaskAdapter(
     private val taskAction: TaskAction
 ):
-    ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback()) {
+    ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback()),DataChange {
 
 
     class ViewHolder
@@ -25,10 +27,21 @@ class TaskAdapter(
 
         fun bind(
             item: Task,
-            taskAction: TaskAction
+            taskAction: TaskAction,
+            interfaceDataChange: DataChange,
+            position: Int
         ) {
             binding.item=item
             binding.taskAction=taskAction
+
+            binding.taskBaseItem.setOnClickListener {
+                item.let {
+                    it.expand = !it.expand
+                }
+                interfaceDataChange.dataIsChanged(position)
+            }
+
+
         }
 
 
@@ -52,8 +65,15 @@ class TaskAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item,taskAction)
+        holder.bind(item,taskAction,this,position)
 
+
+
+    }
+
+
+    override fun dataIsChanged(position:Int) {
+        notifyItemChanged(position)
     }
 
 
@@ -72,3 +92,6 @@ class TaskDiffCallback : DiffUtil.ItemCallback<Task>() {
 
 }
 
+interface DataChange{
+    fun dataIsChanged(position:Int)
+}

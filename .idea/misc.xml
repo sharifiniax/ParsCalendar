@@ -42,6 +42,7 @@
         <entry key="app/src/main/res/layout/task_item.xml" value="0.22" />
         <entry key="app/src/main/res/layout/todo_bottom_sheet.xml" value="0.2585128561501042" />
         <entry key="app/src/main/res/menu/nav_menu.xml" value="0.5" />
+        <entry key="app/src/main/res/menu/priority_menu.xml" value="0.19375" />
         <entry key="app/src/main/res/xml/event.xml" value="0.1" />
         <entry key="app/src/main/res/xml/events.xml" value="0.1" />
       </map>

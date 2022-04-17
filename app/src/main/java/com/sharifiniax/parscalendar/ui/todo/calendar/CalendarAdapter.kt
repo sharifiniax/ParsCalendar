@@ -1,5 +1,7 @@
 package com.sharifiniax.parscalendar.ui.todo.calendar
 
+
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
@@ -17,9 +19,7 @@ import com.sharifiniax.parscalendar.ui.todo.ICloseCalendarBottomSheet
 
 class CalendarAdapter(
     private val closeCalendarBottomSheet: ICloseCalendarBottomSheet
-)
-    : ListAdapter<DayModel, CalendarAdapter.ViewHolder>(DayModelDiffCallback()) {
-
+) : ListAdapter<DayModel, CalendarAdapter.ViewHolder>(DayModelDiffCallback()) {
 
 
     class ViewHolder private constructor
@@ -27,17 +27,31 @@ class CalendarAdapter(
         private val binding: CalendarItemBinding,
         private val closeCalendarBottomSheet: ICloseCalendarBottomSheet
 
-        ) : RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(
             item: DayModel
-        ){
-            if (item.monthModel==MonthModel.Current){
-                binding.dayModel=item
+        ) {
+            if (item.monthModel == MonthModel.Current
+                && !item.isAfter(closeCalendarBottomSheet.today.value!!)
+            ){
+                binding.dayModel = item
                 binding.dayOfMonth.let {
-                    it.setTextColor(ResourcesCompat.getColor(it.resources, R.color.blue_400,null))
+                    it.setTextColor(ResourcesCompat.getColor(it.resources, R.color.blue_100,null))
                 }
 
-                binding.baseItem.setOnClickListener {
+            }
+
+
+
+            if (item.monthModel == MonthModel.Current
+                && item.isAfter(closeCalendarBottomSheet.today.value!!)
+            ) {
+                binding.dayModel = item
+                binding.dayOfMonth.let {
+                    it.setTextColor(ResourcesCompat.getColor(it.resources, R.color.blue_400, null))
+                }
+
+                binding.dayOfMonth.setOnClickListener {
                     closeCalendarBottomSheet.closeCalendarBottomSheet(item)
 
                 }
@@ -47,11 +61,14 @@ class CalendarAdapter(
             binding.executePendingBindings()
         }
 
-        companion object{
-            fun from(parent: ViewGroup, closeCalendarBottomSheet: ICloseCalendarBottomSheet): ViewHolder {
-                val layoutInflater= LayoutInflater.from(parent.context)
-                val binding= CalendarItemBinding.inflate(layoutInflater,parent,false)
-               return ViewHolder(binding,closeCalendarBottomSheet)
+        companion object {
+            fun from(
+                parent: ViewGroup,
+                closeCalendarBottomSheet: ICloseCalendarBottomSheet
+            ): ViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = CalendarItemBinding.inflate(layoutInflater, parent, false)
+                return ViewHolder(binding, closeCalendarBottomSheet)
             }
 
         }
@@ -62,7 +79,7 @@ class CalendarAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent,closeCalendarBottomSheet)
+        return ViewHolder.from(parent, closeCalendarBottomSheet)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -72,13 +89,13 @@ class CalendarAdapter(
 
 }
 
-class DayModelDiffCallback():DiffUtil.ItemCallback<DayModel>() {
+class DayModelDiffCallback() : DiffUtil.ItemCallback<DayModel>() {
     override fun areItemsTheSame(oldItem: DayModel, newItem: DayModel): Boolean {
-        return oldItem==newItem
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: DayModel, newItem: DayModel): Boolean {
-        return oldItem==newItem
+        return oldItem == newItem
     }
 
 }

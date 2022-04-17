@@ -20,6 +20,14 @@ class TodoRepositoryImpl @Inject constructor(
         return taskDao.getAll()
     }
 
+    override fun getAllNoDone(): Flow<List<Task>> {
+        return taskDao.getAllNoDone()
+    }
+
+    override suspend fun updateTask(task: Task) {
+        taskDao.updateTask(task)
+    }
+
     override suspend fun delete(task: Task) {
         taskDao.delete(task)
     }

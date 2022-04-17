@@ -16,7 +16,9 @@ interface TodoRepository {
 
 
     fun getAll(): Flow<List<Task>>
+    fun getAllNoDone(): Flow<List<Task>>
 
+    suspend fun updateTask(task:Task)
 
     suspend fun delete(task: Task)
 

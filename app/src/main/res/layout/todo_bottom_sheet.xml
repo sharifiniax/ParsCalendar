@@ -24,7 +24,7 @@
             style="@style/InputChild"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="مثلا کلاس زبان"
+            android:hint="کلاس زبان"
             android:inputType="text"
             android:text="@={viewModel.title}"
             android:maxLength="25"
@@ -76,6 +76,17 @@
             android:textColor="@color/blue_200"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/task_description" />
+
+        <ImageView
+            android:id="@+id/priority_flag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:onClick="@{()->viewModel.openPriority()}"
+            app:layout_constraintBottom_toBottomOf="@+id/task_day"
+            app:layout_constraintStart_toEndOf="@+id/send_task"
+            app:layout_constraintTop_toTopOf="@+id/task_day"
+            app:srcCompat="@drawable/ic_flag" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

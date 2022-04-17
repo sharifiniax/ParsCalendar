@@ -14,6 +14,9 @@ interface TaskDao {
     @Query("SELECT * FROM Task")
     fun getAll():Flow<List<Task>>
 
+    @Query("SELECT * FROM Task ts WHERE ts.done == 0 ")
+    fun getAllNoDone(): Flow<List<Task>>
+
     @Delete
     suspend fun delete(task: Task)
 
@@ -25,6 +28,8 @@ interface TaskDao {
     fun getCategoriesWithTasks(): Flow<List<CategoryWithTasks>>
 
 
+    @Update
+    suspend fun updateTask(task:Task)
 
 
 }

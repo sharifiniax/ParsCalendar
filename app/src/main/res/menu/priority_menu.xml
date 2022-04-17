@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="priority 1" android:id="@+id/priority_1"
+        android:icon="@drawable/ic_flag" />
+    <item android:title="priority 2" android:id="@+id/priority_2"
+        android:icon="@drawable/ic_flag"/>
+    <item android:title="priority 3" android:id="@+id/priority_3"
+        android:icon="@drawable/ic_flag"/>
+    <item android:title="priority 4" android:id="@+id/priority_4"
+        android:icon="@drawable/ic_flag"/>
+</menu>
