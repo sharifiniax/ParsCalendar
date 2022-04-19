@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+
+
+    <color name="purple_400">#5C6BC0</color>
+    <color name="orange_400">#FF7043</color>
     <color name="blue_100">#BBDEFB</color>
     <color name="blue_400">#6FBEDC</color>
     <color name="blue_200">#86CAE3</color>

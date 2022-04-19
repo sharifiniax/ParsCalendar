@@ -27,11 +27,11 @@
 
 
 <!--        <item name="backgroundColor">@color/transparent</item>-->
-        <item name="background">@drawable/rounded_button</item>
-        <item name="android:layout_margin">16dp</item>
-        <item name="textAppearanceButton">@color/blue_200 </item>
-        <item name="android:backgroundTint">@color/transparent</item>
 
+        <item name="android:layout_margin">16dp</item>
+<!--        <item name="backgroundColor">@color/transparent</item>-->
+
+        <item name="backgroundTint">@color/transparent</item>
     </style>
 
     <style name="Theme.ParsCalendar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />

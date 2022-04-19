@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/Public" android:id="@+id/inbox"
+        android:icon="@drawable/ic_inbox" />
+    <item android:title="@string/Personal" android:id="@+id/personal"
+        android:icon="@drawable/ic_personal"/>
+    <item android:title="@string/Shopping" android:id="@+id/shopping"
+        android:icon="@drawable/ic_shopping"/>
+    <item android:title="@string/Work" android:id="@+id/work"
+        android:icon="@drawable/ic_work"/>
+</menu>

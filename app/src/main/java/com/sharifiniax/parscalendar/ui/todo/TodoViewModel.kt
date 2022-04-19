@@ -1,6 +1,7 @@
 package com.sharifiniax.parscalendar.ui.todo
 
 import android.service.controls.Control
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
@@ -8,7 +9,9 @@ import com.orhanobut.logger.Logger
 import com.sharifiniax.parscalendar.R
 import com.sharifiniax.parscalendar.data.DayModel
 import com.sharifiniax.parscalendar.data.Task
+import com.sharifiniax.parscalendar.data.TodoCategory
 import com.sharifiniax.parscalendar.model.CalendarRepositoryImpl
+import com.sharifiniax.parscalendar.repository.CategoryRepositoryImpl
 import com.sharifiniax.parscalendar.repository.TodoRepository
 import com.sharifiniax.parscalendar.repository.TodoRepositoryImpl
 import com.sharifiniax.parscalendar.utils.*
@@ -22,11 +25,13 @@ import javax.inject.Inject
 @HiltViewModel
 class TodoViewModel @Inject constructor(
     private val repository: TodoRepositoryImpl,
+    private val categoryRepository: CategoryRepositoryImpl,
     private val calendarRepository: CalendarRepositoryImpl
 ) : ViewModel(), ICloseCalendarBottomSheet, TaskAction {
 
     var description: String = ""
     var title: String = ""
+    var category : Int = 1
     var priority: Int = 1
 
     private var _calendarBottomSheetState: MutableStateFlow<BottomSheetState> =
@@ -39,6 +44,9 @@ class TodoViewModel @Inject constructor(
     val selectDay: MutableLiveData<DayModel> = MutableLiveData(calendarRepository.today())
     override val today: LiveData<DayModel> = selectDay
 
+    private val _selectInbox: MutableLiveData<TodoCategory> = MutableLiveData()
+    val selectInbox: LiveData<TodoCategory> = _selectInbox
+
     private val _sendTaskState = MutableStateFlow<ButtonState>(ButtonState.Disable)
     val sendTaskState: StateFlow<ButtonState> = _sendTaskState
 
@@ -50,6 +58,9 @@ class TodoViewModel @Inject constructor(
     private val _menuFlag: MutableStateFlow<PriorityMenuState> =
         MutableStateFlow(PriorityMenuState.Close)
     val menuFlag: StateFlow<PriorityMenuState> = _menuFlag
+    private val _menuInbox: MutableStateFlow<PriorityMenuState> =
+        MutableStateFlow(PriorityMenuState.Close)
+    val menuInbox: StateFlow<PriorityMenuState> = _menuInbox
 
 
     fun enableSendTask() {
@@ -97,17 +108,17 @@ class TodoViewModel @Inject constructor(
     }
 
     fun insertTask() {
-
-        val task = Task(title, description, selectDay.value!!, 1, null, priority, done = false)
+        var cat = TodoCategory()
 
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
+
+                val task = Task(title, description, selectDay.value!!, category, null, priority, done = false)
                 repository.insert(task)
             }.onFailure {
                 _insertTaskState.value = InsertTaskState.Failed
             }.onSuccess {
                 clearTitleAndDescription()
-
 
                 _insertTaskState.value = InsertTaskState.Success
 
@@ -151,6 +162,32 @@ class TodoViewModel @Inject constructor(
 
         _menuFlag.value = PriorityMenuState.Open
         _menuFlag.value = PriorityMenuState.Close
+
+    }
+    fun openInbox() {
+
+        _menuInbox.value = PriorityMenuState.Open
+        _menuInbox.value = PriorityMenuState.Close
+
+    }
+    fun selectCategory(name:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            val cat=categoryRepository.contain(name)
+            if (cat != null){
+                cat?.let {
+                    category=it.categoryId
+                    _selectInbox.postValue(it)
+                }
+            }else{
+                var newCategory=TodoCategory(name)
+                categoryRepository.insert(newCategory)
+                newCategory= categoryRepository.getId(name)!!
+
+                category=newCategory.categoryId
+                _selectInbox.postValue(newCategory)
+            }
+
+        }
 
     }
 }

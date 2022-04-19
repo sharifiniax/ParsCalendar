@@ -19,7 +19,10 @@
         <entry key="app/src/main/res/drawable/ic_calendar.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/ic_dot.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/ic_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_personal.xml" value="0.153" />
         <entry key="app/src/main/res/drawable/ic_send.xml" value="0.1565" />
+        <entry key="app/src/main/res/drawable/ic_shopping.xml" value="0.153" />
+        <entry key="app/src/main/res/drawable/ic_work.xml" value="0.153" />
         <entry key="app/src/main/res/drawable/item_calendar_shap.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/line.xml" value="0.1845" />
         <entry key="app/src/main/res/drawable/rounded_button.xml" value="0.1655" />
@@ -40,7 +43,8 @@
         <entry key="app/src/main/res/layout/item_category.xml" value="0.11820652173913043" />
         <entry key="app/src/main/res/layout/item_task.xml" value="0.11820652173913043" />
         <entry key="app/src/main/res/layout/task_item.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/todo_bottom_sheet.xml" value="0.2585128561501042" />
+        <entry key="app/src/main/res/layout/todo_bottom_sheet.xml" value="0.67" />
+        <entry key="app/src/main/res/menu/inbox_menu.xml" value="0.1" />
         <entry key="app/src/main/res/menu/nav_menu.xml" value="0.5" />
         <entry key="app/src/main/res/menu/priority_menu.xml" value="0.19375" />
         <entry key="app/src/main/res/xml/event.xml" value="0.1" />

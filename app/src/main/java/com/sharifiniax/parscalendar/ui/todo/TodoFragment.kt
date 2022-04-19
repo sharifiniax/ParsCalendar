@@ -3,10 +3,11 @@ package com.sharifiniax.parscalendar.ui.todo
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
-import android.text.Editable
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,7 +15,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import com.orhanobut.logger.Logger
 import com.sharifiniax.parscalendar.R
 import com.sharifiniax.parscalendar.databinding.FragmentTodoBinding
 import com.sharifiniax.parscalendar.ui.todo.calendar.CalendarsAdapter
@@ -25,7 +25,6 @@ import com.sharifiniax.parscalendar.utils.InsertTaskState
 import com.sharifiniax.parscalendar.utils.PriorityMenuState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.observeOn
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -37,7 +36,7 @@ class TodoFragment @Inject constructor() : Fragment() {
     /*
     max and min peek height
      */
-    private val MAXPEEKHEIGHT = 550
+    private val MAXPEEKHEIGHT = 700
     private val MINPEEKHEIGHT = 0
     private val CALMAXPEEKHEIGHT = 900
     private val CALMINPEEKHEIGHT = 0
@@ -183,6 +182,29 @@ class TodoFragment @Inject constructor() : Fragment() {
 
             }
         }
+        lifecycleScope.launchWhenStarted {
+            viewModel.menuInbox.collect {
+
+                when(it){
+
+                    PriorityMenuState.Close->{
+
+
+                    }
+                    PriorityMenuState.Open->{
+
+                        showInboxMenu()
+                    }
+
+
+
+
+                }
+
+
+
+            }
+        }
         val taskAdapter = TaskAdapter(viewModel)
         binding.taskRecycler.layoutManager = LinearLayoutManager(context)
         binding.taskRecycler.adapter = taskAdapter
@@ -194,6 +216,10 @@ class TodoFragment @Inject constructor() : Fragment() {
         viewModel.selectDay.observe(viewLifecycleOwner) {
             binding.todoBottomSheet.taskDay.text = it.toString()
         }
+        viewModel.selectInbox.observe(viewLifecycleOwner) {
+            binding.todoBottomSheet.inboxCategory.text = it.name
+        }
+
         val adapter = CalendarsAdapter(viewModel)
         binding.calendarBottomSheet.calendarsRecyclerView.layoutManager =
             LinearLayoutManager(context)
@@ -270,40 +296,101 @@ class TodoFragment @Inject constructor() : Fragment() {
     private fun showPriorityMenu() {
         PopupMenu(requireContext(), binding.todoBottomSheet.priorityFlag).apply {
             // MainActivity implements OnMenuItemClickListener
-            setOnMenuItemClickListener{
-                 when (it.itemId) {
+            setOnMenuItemClickListener {
+                when (it.itemId) {
                     R.id.priority_1 -> {
-                        viewModel.priority=1
+                        viewModel.priority = 1
                         return@setOnMenuItemClickListener true
                     }
 
                     R.id.priority_2 -> {
-                        viewModel.priority=2
+                        viewModel.priority = 2
                         return@setOnMenuItemClickListener true
                     }
 
                     R.id.priority_3 -> {
-                        viewModel.priority=3
+                        viewModel.priority = 3
                         return@setOnMenuItemClickListener true
                     }
 
                     R.id.priority_4 -> {
-                        viewModel.priority=4
+                        viewModel.priority = 4
                         return@setOnMenuItemClickListener true
                     }
 
-                     else ->{
-                         return@setOnMenuItemClickListener false
-                     }
-            }
+                    else -> {
+                        return@setOnMenuItemClickListener false
+                    }
+                }
 
-        }
+            }
             inflate(R.menu.priority_menu)
             show()
+        }
     }
 
+     private fun showInboxMenu() {
+            PopupMenu(requireContext(), binding.todoBottomSheet.inboxCategory).apply {
+                // MainActivity implements OnMenuItemClickListener
+                setOnMenuItemClickListener{
+                    when (it.itemId) {
+                        R.id.inbox -> {
+                            viewModel.selectCategory(
+                               getString( R.string.Public)
+                            )
+                            binding.todoBottomSheet.inboxCategory.setCompoundDrawablesWithIntrinsicBounds(
+                                R.drawable.ic_inbox,
+                                0,
+                                0,
+                                0
+                            )
 
+                            return@setOnMenuItemClickListener true
+                        }
 
+                        R.id.personal -> {
+                            viewModel.selectCategory(getString( R.string.Personal))
+                            binding.todoBottomSheet.inboxCategory.setCompoundDrawablesWithIntrinsicBounds(
+                                R.drawable.ic_personal,
+                                0,
+                                0,
+                                0
+                            )
+                            return@setOnMenuItemClickListener true
+                        }
+
+                        R.id.shopping -> {
+                            viewModel.selectCategory(getString( R.string.Shopping))
+                            binding.todoBottomSheet.inboxCategory.setCompoundDrawablesWithIntrinsicBounds(
+                                R.drawable.ic_shopping,
+                                0,
+                                0,
+                                0
+                            )
+                            return@setOnMenuItemClickListener true
+                        }
+
+                        R.id.work -> {
+                            viewModel.selectCategory(getString( R.string.Work))
+                            binding.todoBottomSheet.inboxCategory.setCompoundDrawablesWithIntrinsicBounds(
+                                R.drawable.ic_work,
+                                0,
+                                0,
+                                0
+                            )
+
+                            return@setOnMenuItemClickListener true
+                        }
+
+                        else ->{
+                            return@setOnMenuItemClickListener false
+                        }
+                    }
+
+                }
+                inflate(R.menu.inbox_menu)
+                show()
+            }
     }
 
 
@@ -312,6 +399,7 @@ class TodoFragment @Inject constructor() : Fragment() {
 
         binding.todoBottomSheet.taskTitle.setText("")
         binding.todoBottomSheet.taskDescription.setText("")
+
 
 
     }

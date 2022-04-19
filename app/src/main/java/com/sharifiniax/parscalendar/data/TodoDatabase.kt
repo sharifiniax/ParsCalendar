@@ -8,5 +8,6 @@ import androidx.room.RoomDatabase
 abstract class TodoDatabase : RoomDatabase(){
 
     abstract fun TaskDao(): TaskDao
+    abstract fun TodoCategoryDao():CategoryDao
 
 }

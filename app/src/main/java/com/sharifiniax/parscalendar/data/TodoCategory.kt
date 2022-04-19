@@ -8,13 +8,14 @@ import androidx.room.Relation
 
 @Entity
 data class TodoCategory(
-    @PrimaryKey
-    val categoryId:Int,
-
-    val name:String,
+    val name:String = "Inbox",
     val color: CategoryColor = CategoryColor.White
-)
+){
 
+    @PrimaryKey(autoGenerate = true)
+    var categoryId:Int=0
+
+}
 
 
 

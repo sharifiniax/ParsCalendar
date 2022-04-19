@@ -7,6 +7,10 @@
     <string name="app_widget_description">This is an app widget description</string>
     <string name="add_task_to_list">add task to list</string>
     <string name="today">امروز</string>
+    <string name="Public">عمومی</string>
+    <string name="Personal">شخصی</string>
+    <string name="Shopping">خرید</string>
+    <string name="Work">کاری</string>
 
 
 </resources>

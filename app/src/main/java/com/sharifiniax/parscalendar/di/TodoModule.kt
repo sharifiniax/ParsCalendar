@@ -2,6 +2,7 @@ package com.sharifiniax.parscalendar.di
 
 import android.content.Context
 import androidx.room.Room
+import com.sharifiniax.parscalendar.data.CategoryDao
 import com.sharifiniax.parscalendar.data.TaskDao
 import com.sharifiniax.parscalendar.data.TodoDatabase
 import dagger.Module
@@ -30,11 +31,15 @@ class TodoModule {
 
     @Provides
     @ViewModelScoped
-    fun getTaskDao( db : TodoDatabase ): TaskDao {
+    fun getTaskDao(db: TodoDatabase): TaskDao {
         return db.TaskDao()
     }
 
-
+    @Provides
+    @ViewModelScoped
+    fun getCategoryDao(db: TodoDatabase): CategoryDao {
+        return db.TodoCategoryDao()
+    }
 
 
 }
